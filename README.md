@@ -72,12 +72,8 @@ const Example = () => {
   const ref = useRef
 
   // Pass an optional callback to perform side effects instead:
-  useIntersectionObserver(
-    ref,
-    { threshold: 0.25, triggerOnce: true },
-    entry => {
-      console.log(entry.boundingClientRect)
-    }
+  useIntersectionObserver(ref, { threshold: 0.25, triggerOnce: true }, entry =>
+    console.log(entry.boundingClientRect)
   )
 
   return <div ref={ref}>Some content...</div>
@@ -103,7 +99,7 @@ const Example = () => {
 }
 ```
 
-Just like with a `ref`, you can optionally provide a callback function.
+Just like the `ref` examples, you can optionally provide a callback function.
 
 # License
 
