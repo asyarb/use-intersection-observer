@@ -1,28 +1,24 @@
-# use-resize-observer
+# use-intersection-observer
 
-[![NPM](https://img.shields.io/npm/v/@asyarb/use-resize-observer.svg?&color=green)](https://www.npmjs.com/package/@asyarb/use-resize-observer)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/@asyarb/use-resize-observer.svg?logoColor=brightgreen)
+[![NPM](https://img.shields.io/npm/v/@asyarb/use-intersection-observer.svg?&color=green)](https://www.npmjs.com/package/@asyarb/use-intersection-observer)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@asyarb/use-intersection-observer.svg?logoColor=brightgreen)
 
 React implementation of the
-[Resize Observer Interface](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
-to tell you when an element resizes.
+[intersection Observer Interface](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
+to tell you when an element is visible in the viewport.
 
-**Demo**: [Code Sandbox](https://codesandbox.io/s/74n0p5xr0j)
+**Demo**: TODO [Code Sandbox](https://codesandbox.io/)
 
 # Features
 
-- 🎣 **Hooks API** - With `useResizeObserver` it's easier than ever to monitor
-  the size changes of your elements. Just pass a ref!
+- 🎣 **Hooks API** - With `useIntersectionObserver` it's easier than ever to
+  monitor the visibility of your components. Just pass a ref!
 - ⚙️ **Alternative Native-esque API** - Intuitive to use. Pass an `HTMLElement`
-  and an optional function to handle `ResizeObserver` callbacks.
-- 💨 **Optimized Performance** - Reuses `ResizeObserver` instances whenever
-  possible.
-- 💥 **Tiny Footprint**
-
-> ⚠️ This package includes
-> [`resize-observer-polyfill`](https://www.npmjs.com/package/resize-observer-polyfill)
-> for full browser support. This package ponyfills `ResizeObserver` at runtime
-> based on the browser.
+  and an optional function to handle `IntersectionObserver` callbacks.
+- 💨 **Optimized Performance** - Reuses `IntersectionObserver` instances
+  whenever possible, intersections will not cause other observed elements to
+  re-render.
+- 💥 **Tiny Footprint** - Less than 400 bytes!
 
 # Installation
 
@@ -30,51 +26,59 @@ Run the following:
 
 ```bash
 # Yarn
-yarn add @asyarb/use-resize-observer
+yarn add @asyarb/use-intersection-observer
 
 # NPM
-npm i @asyarb/use-resize-observer --save
+npm i @asyarb/use-intersection-observer --save
 ```
 
 # Usage
 
 ### Provide a `ref` from `useRef`
 
-To observe the resizing of a component, pass a `ref` of that component to
-`useResizeObserver`:
+To observe the visibility of a component, pass a `ref` of that component to
+`useIntersectionObserver`:
 
 ```jsx
 const Example = () => {
   const ref = useRef()
-  const [height, setHeight] = useState(0)
 
-  // Get the content rect directly from the hook:
-  const sizes = useResizeObserver(ref)
+  // Get the visibility boolean directly from the hook:
+  const inView = useIntersectionObserver(ref, {
+    threshold: 0.25,
+    triggerOnce: true,
+  })
 
   useEffect(() => {
-    // Perform any side effect with those sizes!
-    setHeight(sizes.height)
-  }, [sizes])
+    if (inView) {
+      // => Perform any side effect with it!
+    }
+  }, [inView])
 
   return <div ref={ref}>Some content...</div>
 }
 ```
 
-`sizes` will be updated whenever the observed element is resized.
+`inView` will be updated whenever the observed element passes the specified
+threshold.
 
-Alternatively, you can pass a function as the second parameter to perform any
-side effect on resize. This function receives the `ResizeObserver` entry
-(`ResizeObserverEntry`) object as an argument.
+Optionally, you can pass a callback function as the third parameter to perform
+any side effect on intersection. This function receives the
+`IntersectionObserver` entry (`IntersectionObserverEntry`) object as an
+argument.
 
 ```jsx
 const Example = () => {
   const ref = useRef
-  const [height, setHeight] = useState(0)
 
   // Pass an optional callback to perform side effects instead:
-  useResizeObserver(ref, entry => {
-    setHeight(entry.contentRect.height)
-  })
+  useIntersectionObserver(
+    ref,
+    { threshold: 0.25, triggerOnce: true },
+    entry => {
+      console.log(entry.boundingClientRect)
+    }
+  )
 
   return <div ref={ref}>Some content...</div>
 }
@@ -82,28 +86,24 @@ const Example = () => {
 
 ### Provide a DOM element
 
-`useResizeObserver` can alternatively take an `HTMLElement` such as the return
-value from `document.querySelector()`.
+`useIntersectionObserver` can alternatively take an `HTMLElement` such as the
+return value from `document.querySelector()`.
 
 ```jsx
 const Example = () => {
-  const [height, setHeight] = useState(0)
   const domNode = document.querySelector('.someClass')
 
   // Pass an HTMLElement directly:
-  const sizes = useResizeObserver(domNode)
+  const inView = useIntersectionObserver(domNode, {
+    threshold: 0.25,
+    triggerOnce: true,
+  })
 
-  useEffect(() => {
-    // Perform any side effect with that element's sizes!
-    setHeight(sizes.height)
-  }, [sizes])
-
-  return <div ref={ref}>Some content...</div>
+  return <div>Some content...</div>
 }
 ```
 
-Just like the previous example, you can alternatively provide a callback
-function instead.
+Just like with a `ref`, you can optionally provide a callback function.
 
 # License
 

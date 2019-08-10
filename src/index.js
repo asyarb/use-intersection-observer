@@ -21,7 +21,7 @@ const IS_BROWSER = typeof window !== 'undefined'
  * @throws if ref is not a valid React ref or HTMLElement.
  */
 export const useIntersectionObserver = (ref, options, callback) => {
-  const [state, setState] = useState([false, undefined])
+  const [inView, setInView] = useState(false)
 
   const handleIntersect = entries => {
     const [entry] = entries
@@ -29,7 +29,7 @@ export const useIntersectionObserver = (ref, options, callback) => {
     if (callback && entry.isIntersecting) callback(entry)
     if (options.triggerOnce && entry.isIntersecting) intersectObs.disconnect()
 
-    setState([entry.isIntersecting, entry])
+    setInView(entry.isIntersecting)
   }
 
   const [intersectObs] = useState(() =>
@@ -45,5 +45,5 @@ export const useIntersectionObserver = (ref, options, callback) => {
     return () => intersectObs.disconnect()
   }, [ref, intersectObs])
 
-  return state
+  return inView
 }
