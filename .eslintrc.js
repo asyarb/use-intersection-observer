@@ -13,6 +13,14 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
   },
   parser: 'babel-eslint',
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
+  },
+  globals: {
+    IntersectionObserver: true,
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

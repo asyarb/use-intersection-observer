@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react'
 
 const IS_BROWSER = typeof window !== 'undefined'
 
-export const useIntersectionObserver = (ref, fn) => {
-  const [inView, setInView] = useState(false)
+export const useIntersectionObserver = (ref, options, callback) => {
+  const [state, setState] = useState([false, undefined])
 
   const handleIntersect = entries => {
     const [entry] = entries
 
-    if (fn) fn(entry)
+    if (callback) callback(entry)
+    if (options.triggerOnce) intersectObs.disconnect()
 
-    setInView(true)
+    setState([true, entry])
   }
 
   const [intersectObs] = useState(() =>
-    IS_BROWSER ? new IntersectionObserver(handleIntersect) : null
+    IS_BROWSER ? new IntersectionObserver(handleIntersect, options) : null
   )
 
   useEffect(() => {
@@ -26,5 +27,5 @@ export const useIntersectionObserver = (ref, fn) => {
     return () => intersectObs.disconnect()
   }, [ref, intersectObs])
 
-  return inView
+  return state
 }
