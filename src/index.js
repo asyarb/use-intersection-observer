@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 
 const IS_BROWSER = typeof window !== 'undefined'
 
-export const useIntersectionObserver = (ref, options, callback) => {
+export const useIntersectionObserver = (
+  ref,
+  options = { triggerOnce: true, threshold: 0 },
+  callback
+) => {
   const [inView, setInView] = useState(false)
 
   const handleIntersect = entries => {
