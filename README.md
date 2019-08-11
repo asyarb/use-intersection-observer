@@ -99,10 +99,7 @@ const Example = () => {
   const domNode = document.querySelector('.someClass')
 
   // Pass an HTMLElement directly:
-  const inView = useIntersectionObserver(domNode, {
-    threshold: 0.25,
-    triggerOnce: true,
-  })
+  const inView = useIntersectionObserver(domNode)
 
   return <div>Some content...</div>
 }
