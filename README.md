@@ -5,6 +5,7 @@
 - [Usage](#usage)
   - [Provide a `ref` from `useRef`](#provide-a-ref-from-useref)
   - [Provide a DOM element](#provide-a-dom-element)
+- [API](#api)
 - [Why use this over `react-intersection-observer`](#why-use-this-over-react-intersection-observer)
   - [Summary](#summary)
 - [License](#license)
@@ -103,6 +104,14 @@ const Example = () => {
 ```
 
 Just like the `ref` examples, you can optionally provide a callback function.
+
+## API
+
+|  Argument  | Required | Description                                                                                                                      |
+| :--------: | :------: | -------------------------------------------------------------------------------------------------------------------------------- |
+|   `ref`    |   Yes    | React `ref` or `HTMLElement` to observe.                                                                                         |
+| `options`  |   Yes    | `IntersectionObserverOptions` object with additional `triggerOnce` flag.                                                         |
+| `callback` |    No    | Optional callback to fire on intersection. Receives the `IntersectionObserverEntry` object for the passed `ref` or `HTMLElement` |
 
 ## Why use this over `react-intersection-observer`
 
