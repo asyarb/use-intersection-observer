@@ -109,12 +109,11 @@ Just like the `ref` examples, you can optionally provide a callback function.
 This package aims to prioritize performance for different use-cases.
 
 `react-intersection-observer` utilizes a single `IntersectionObserver` instance
-to observe all elements that use the `useInView` hook. It fires the This is good
-because doing so allows browsers to batch `IntersectionObserver` callbacks
-together.
+to observe all elements that use the `useInView` hook. By doing so, browsers can
+batch `IntersectionObserver` callbacks together.
 
-Conversely, this is not good because any intersection will cause _all_
-observered components to re-render, not just itself. Even when using the
+Conversely, this will cause any observered element's intersection to cause cause
+_all_ observered components to re-render, not just itself. Even when using the
 `triggerOnce` flag, components will still re-render post-intersection due to
 callbacks still firing from a unified instance.
 
@@ -128,10 +127,12 @@ disconnect instances entirely after intersection.
 
 If re-rendering your observered components are your most expensive operation, or
 you just can't have re-rendering from other elements coming into view (e.g.
-animations), consider using this package instead.
+animations), consider using this package.
 
 If callbacks are your most expensive operation during intersection,
 `react-intersection-observer` may be a better fit.
+
+As always, try both and see what works best for your application.
 
 ## License
 
