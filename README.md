@@ -23,9 +23,8 @@ to tell you when an element is visible in the viewport.
 - **Hooks API** - Just pass a ref!
 - **Alternative Native-esque API** - Pass an `HTMLElement` and an optional
   function to handle `IntersectionObserver` callbacks.
-- **Optimized Performance** - Reuses `IntersectionObserver` Intersections will
-  not cause other observed elements to re-render.
-- **Tiny Footprint** - Less than 400 bytes!
+- **Performant** - Reuses `IntersectionObserver` Intersections will not cause
+  other observed elements to re-render.
 
 ## Installation
 
