@@ -20,14 +20,13 @@ to tell you when an element is visible in the viewport.
 
 ## Features
 
-- 🎣 **Hooks API** - With `useIntersectionObserver` it's easier than ever to
+- **Hooks API** - With `useIntersectionObserver` it's easier than ever to
   monitor the visibility of your components. Just pass a ref!
-- ⚙️ **Alternative Native-esque API** - Intuitive to use. Pass an `HTMLElement`
-  and an optional function to handle `IntersectionObserver` callbacks.
-- 💨 **Optimized Performance** - Reuses `IntersectionObserver` instances
-  whenever possible, intersections will not cause other observed elements to
-  re-render.
-- 💥 **Tiny Footprint** - Less than 400 bytes!
+- **Alternative Native-esque API** - Pass an `HTMLElement` and an optional
+  function to handle `IntersectionObserver` callbacks.
+- **Optimized Performance** - Reuses `IntersectionObserver` Intersections will
+  not cause other observed elements to re-render.
+- **Tiny Footprint** - Less than 400 bytes!
 
 ## Installation
 
