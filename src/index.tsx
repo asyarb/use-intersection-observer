@@ -1,4 +1,4 @@
-import { useEffect, useState, MutableRefObject } from 'react'
+import { useEffect, useState, RefObject } from 'react'
 
 /**
  * Hook parameters.
@@ -7,7 +7,7 @@ interface UseIntersectionObserverProperties {
   /**
    * Ref object from `useRef`.
    */
-  ref?: MutableRefObject<Element>
+  ref?: RefObject<Element> | null
 
   /**
    * DOM element. E.g. from `querySelector()`

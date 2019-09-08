@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useRef, useEffect } from 'react'
+// import ReactDOM from 'react-dom'
 import { useIntersectionObserver } from '../.'
 
-const App = () => {
-  const [element, setElement] = useState<Element | null>(null)
+export const Example = () => {
+  const ref = useRef<HTMLDivElement>(null)
   const inView = useIntersectionObserver({
-    element,
-    callback: () => alert('Scrolled into view'),
+    ref,
+    callback: () => console.log('I was scrolled to!'),
   })
 
-  useEffect(() => void setElement(document.querySelector('.hello')), [])
+  useEffect(() => {
+    const interval = setTimeout(() => void window.scrollTo(0, 10000), 500)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
-    <>
+    <div>
       <div
         style={{
-          paddingTop: '200vh',
+          paddingTop: '100vh',
           backgroundColor: inView ? 'green' : 'red',
         }}
       />
-      <div className="hello">Testing</div>
-    </>
+      <div ref={ref}>{inView ? 'scrolled into view' : 'not in view'}</div>
+    </div>
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+// ReactDOM.render(<Example />, document.getElementById('root'))
