@@ -115,7 +115,7 @@ Just like the `ref` examples, you can optionally provide a callback function.
 | Argument   | Description                                                                                                                    |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | `ref`      | React `ref` to observe.                                                                                                        |
-| `element`  | HTML `Element` to observe. If both `element` and `ref` are defined, `ref` is prioritized.                                      |
+| `element`  | Alternative HTML `Element` to observe. If both `element` and `ref` are defined, `ref` is prioritized.                          |
 | `options`  | `IntersectionObserverOptions` object with additional `triggerOnce` flag.                                                       |
 | `callback` | Optional callback to fire on intersection. Receives the `IntersectionObserverEntry` object for the provided `ref` or `element` |
 
