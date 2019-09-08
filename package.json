@@ -1,6 +1,6 @@
 {
   "name": "@asyarb/use-intersection-observer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "An easy to use React hook wrapper around the IntersectionObserver API.",
   "main": "dist/index.js",
   "module": "dist/test.esm.js",

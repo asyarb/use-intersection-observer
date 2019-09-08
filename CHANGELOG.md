@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/asyarb/use-intersection-observer/compare/v2.0.0...v2.0.1) (2019-09-08)
+
+
+### Bug Fixes
+
+* update npm ignore ([0e16e4d](https://github.com/asyarb/use-intersection-observer/commit/0e16e4d))
+
 ## [2.0.0](https://github.com/asyarb/use-intersection-observer/compare/v1.3.1...v2.0.0) (2019-09-08)
 
 
