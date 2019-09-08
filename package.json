@@ -3,7 +3,6 @@
   "version": "2.0.1",
   "description": "An easy to use React hook wrapper around the IntersectionObserver API.",
   "main": "dist/index.js",
-  "module": "dist/test.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
