@@ -98,9 +98,9 @@ const Example = () => {
 value from `document.querySelector()`.
 
 ```jsx
-const Example = () => {
-  const element = document.querySelector('.someClass')
+const element = document.querySelector('.someClass')
 
+const Example = () => {
   // Pass an HTMLElement directly:
   const inView = useIntersectionObserver({ element })
 

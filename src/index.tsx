@@ -12,7 +12,7 @@ interface UseIntersectionObserverProperties {
   /**
    * DOM element. E.g. from `querySelector()`
    */
-  element?: Element
+  element?: Element | null | undefined
 
   /**
    * Configuration options for the intersection observer
