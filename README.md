@@ -21,11 +21,12 @@ to tell you when an element is visible in the viewport.
 
 ## Features
 
-- **Hooks API** - Just pass a ref!
+- **Hooks API** - Just provide a ref!
 - **Alternative Native-esque API** - Pass an `HTMLElement` and an optional
   function to handle `IntersectionObserver` callbacks.
 - **Performant** - Intersections will not cause other observed elements to
   re-render.
+- **Typed** - Written with TypeScript!
 
 ## Installation
 
@@ -51,9 +52,12 @@ const Example = () => {
   const ref = useRef()
 
   // Get the visibility boolean directly from the hook:
-  const inView = useIntersectionObserver(ref, {
-    threshold: 0.25,
-    triggerOnce: true,
+  const inView = useIntersectionObserver({
+    ref,
+    options: {
+      threshold: 0.25,
+      triggerOnce: true,
+    },
   })
 
   useEffect(() => {
@@ -79,9 +83,10 @@ const Example = () => {
   const ref = useRef
 
   // Pass an optional callback to perform side effects instead:
-  useIntersectionObserver(ref, { threshold: 0.25, triggerOnce: true }, entry =>
-    console.log(entry.boundingClientRect)
-  )
+  useIntersectionObserver({
+    ref,
+    callback: entry => console.log(entry.boundingClientRect),
+  })
 
   return <div ref={ref}>Some content...</div>
 }
@@ -89,15 +94,15 @@ const Example = () => {
 
 ### Provide a DOM element
 
-`useIntersectionObserver` can alternatively take an `HTMLElement` such as the
-return value from `document.querySelector()`.
+`useIntersectionObserver` can alternatively take an `Element` such as the return
+value from `document.querySelector()`.
 
 ```jsx
 const Example = () => {
-  const domNode = document.querySelector('.someClass')
+  const element = document.querySelector('.someClass')
 
   // Pass an HTMLElement directly:
-  const inView = useIntersectionObserver(domNode)
+  const inView = useIntersectionObserver({ element })
 
   return <div>Some content...</div>
 }
@@ -107,11 +112,12 @@ Just like the `ref` examples, you can optionally provide a callback function.
 
 ## API
 
-|  Argument  | Required | Description                                                                                                                      |
-| :--------: | :------: | -------------------------------------------------------------------------------------------------------------------------------- |
-|   `ref`    |   Yes    | React `ref` or `HTMLElement` to observe.                                                                                         |
-| `options`  |   Yes    | `IntersectionObserverOptions` object with additional `triggerOnce` flag.                                                         |
-| `callback` |    No    | Optional callback to fire on intersection. Receives the `IntersectionObserverEntry` object for the passed `ref` or `HTMLElement` |
+| Argument   | Description                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `ref`      | React `ref` to observe.                                                                                                        |
+| `element`  | HTML `Element` to observe. If both `element` and `ref` are defined, `ref` is prioritized.                                      |
+| `options`  | `IntersectionObserverOptions` object with additional `triggerOnce` flag.                                                       |
+| `callback` | Optional callback to fire on intersection. Receives the `IntersectionObserverEntry` object for the provided `ref` or `element` |
 
 ## Why use this over `react-intersection-observer`
 
