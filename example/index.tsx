@@ -8,7 +8,7 @@ export const Example = () => {
     ref,
     options: {
       threshold: 0,
-      triggerOnce: false,
+      triggerOnce: true,
     },
     callback: console.log,
   })

@@ -98,13 +98,15 @@ export const useIntersectionObserver = ({
     // the user's callback if they have provided one.
     const someElementIsInView = entries.some(e => e.isIntersecting)
 
-    if (callback && someElementIsInView) {
-      callback(entries)
+    if (someElementIsInView) {
+      if (callback) callback(entries)
       hasRunCallbackOnceRef.current = true
     }
+
     // If triggerOnce is true and we've already ran the callback,
     // disconnect so we don't trigger anymore.
-    if (shouldNotRunCallback) intersectObs.disconnect()
+    if (options.triggerOnce && hasRunCallbackOnceRef.current)
+      intersectObs.disconnect()
 
     setInView(someElementIsInView)
   }
