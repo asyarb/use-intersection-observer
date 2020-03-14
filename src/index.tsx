@@ -86,13 +86,13 @@ export const useIntersectionObserver = ({
 
   const handleIntersect = (entries: IntersectionObserverEntry[]) => {
     if (!intersectObs) return
+
     // Capture the mutable ref for this closure.
     const hasRunCallback = hasRunCallbackOnceRef.current
-    const shouldNotRunCallback = hasRunCallback && options.triggerOnce
 
     // We've already ran the callback and triggerOnce is true, so don't
     // do anything.
-    if (shouldNotRunCallback) return
+    if (hasRunCallback && options.triggerOnce) return
 
     // Otherwise, we need to see if the element is intersecting and run
     // the user's callback if they have provided one.
