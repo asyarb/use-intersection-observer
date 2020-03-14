@@ -80,7 +80,7 @@ export const useIntersectionObserver = ({
 
   // We need to track if the callback has been triggered since the Observer
   // callback will always be immediately invoked on page load.
-  // We don't want the immediate invokation to prevent the initial intersection
+  // We don't want the immediate invocation to prevent the initial intersection
   // callback, so we need to manually track it ourselves.
   const hasRunCallbackOnceRef = useRef(false)
 
