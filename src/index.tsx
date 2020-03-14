@@ -1,4 +1,4 @@
-import { useEffect, useState, RefObject } from 'react'
+import { useEffect, useState, useRef, RefObject } from 'react'
 
 /**
  * Hook parameters.
@@ -24,7 +24,7 @@ interface UseIntersectionObserverProperties {
    * Callback to fire when the observed component or Element
    * comes into view.
    */
-  callback?: (entry: IntersectionObserverEntry) => void
+  callback?: (entries: IntersectionObserverEntry[]) => void
 }
 
 /**
@@ -78,15 +78,35 @@ export const useIntersectionObserver = ({
 }: UseIntersectionObserverProperties) => {
   const [inView, setInView] = useState(false)
 
+  // We need to track if the callback has been triggered since the Observer
+  // callback will always be immediately invoked on page load.
+  // We don't want the immediate invokation to prevent the initial intersection
+  // callback, so we need to manually track it ourselves.
+  const hasRunCallbackOnceRef = useRef(false)
+
   const handleIntersect = (entries: IntersectionObserverEntry[]) => {
     if (!intersectObs) return
+    // Capture the mutable ref for this closure.
+    const hasRunCallback = hasRunCallbackOnceRef.current
+    const shouldNotRunCallback = hasRunCallback && options.triggerOnce
 
-    const [entry] = entries
+    // We've already ran the callback and triggerOnce is true, so don't
+    // do anything.
+    if (shouldNotRunCallback) return
 
-    if (callback && entry.isIntersecting) callback(entry)
-    if (options.triggerOnce && entry.isIntersecting) intersectObs.disconnect()
+    // Otherwise, we need to see if the element is intersecting and run
+    // the user's callback if they have provided one.
+    const someElementIsInView = entries.some(e => e.isIntersecting)
 
-    setInView(entry.isIntersecting)
+    if (callback && someElementIsInView) {
+      callback(entries)
+      hasRunCallbackOnceRef.current = true
+    }
+    // If triggerOnce is true and we've already ran the callback,
+    // disconnect so we don't trigger anymore.
+    if (shouldNotRunCallback) intersectObs.disconnect()
+
+    setInView(someElementIsInView)
   }
 
   const [intersectObs] = useState(() =>
@@ -95,6 +115,7 @@ export const useIntersectionObserver = ({
 
   useEffect(() => {
     if (!intersectObs) return
+
     let domNode
 
     if (ref) domNode = ref.current

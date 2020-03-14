@@ -21,10 +21,10 @@ to tell you when an element is visible in the viewport.
 
 ## Features
 
-- **Hooks API** - Just provide a ref!
+- **Hooks API** - Provide a ref!
 - **Alternative Native-esque API** - Pass an `HTMLElement` and an optional
   function to handle `IntersectionObserver` callbacks.
-- **Performant** - Intersections will not cause other observed elements to
+- **Isolated** - Intersections will not cause other observed elements to
   re-render.
 - **Typed** - Written with TypeScript!
 
@@ -74,18 +74,18 @@ const Example = () => {
 threshold.
 
 Optionally, you can pass a callback function as the third parameter to perform
-any side effect on intersection. This function receives the
-`IntersectionObserver` entry (`IntersectionObserverEntry`) object as an
+any side effect on intersection. This function receives list of
+`IntersectionObserver` entries (`IntersectionObserverEntry[]`) array as an
 argument.
 
-```jsx
+```tsx
 const Example = () => {
   const ref = useRef
 
   // Pass an optional callback to perform side effects instead:
   useIntersectionObserver({
     ref,
-    callback: entry => console.log(entry.boundingClientRect),
+    callback: entries => entries.forEach(e => console.log(e)),
   })
 
   return <div ref={ref}>Some content...</div>
@@ -112,12 +112,12 @@ Just like the `ref` examples, you can optionally provide a callback function.
 
 ## API
 
-| Argument   | Description                                                                                                                    |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `ref`      | React `ref` to observe.                                                                                                        |
-| `element`  | Alternative HTML `Element` to observe. If both `element` and `ref` are defined, `ref` is prioritized.                          |
-| `options`  | `IntersectionObserverOptions` object with additional `triggerOnce` flag.                                                       |
-| `callback` | Optional callback to fire on intersection. Receives the `IntersectionObserverEntry` object for the provided `ref` or `element` |
+| Argument   | Description                                                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `ref`      | React `ref` to observe.                                                                                                                  |
+| `element`  | Alternative HTML `Element` to observe. If both `element` and `ref` are defined, `ref` is prioritized.                                    |
+| `options`  | `IntersectionObserverOptions` object with an additional `triggerOnce` argument.                                                          |
+| `callback` | Optional callback to fire on intersection. Receives the array of `IntersectionObserverEntry` objects for the provided `ref` or `element` |
 
 ## Why use this over `react-intersection-observer`
 
