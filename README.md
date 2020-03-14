@@ -78,9 +78,9 @@ any side effect on intersection. This function receives list of
 `IntersectionObserver` entries (`IntersectionObserverEntry[]`) array as an
 argument.
 
-```tsx
+```jsx
 const Example = () => {
-  const ref = useRef
+  const ref = useRef()
 
   // Pass an optional callback to perform side effects instead:
   useIntersectionObserver({
