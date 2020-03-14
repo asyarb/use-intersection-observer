@@ -17,8 +17,6 @@ React implementation of the
 [intersection Observer Interface](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
 to tell you when an element is visible in the viewport.
 
-**Demo**: TODO [Code Sandbox](https://codesandbox.io/)
-
 ## Features
 
 - **Hooks API** - Provide a ref!
