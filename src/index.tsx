@@ -92,6 +92,7 @@ export const useIntersectionObserver = ({
       }
 
       setInView(hasIntersected)
+      return
     }
 
     // Otherwise, in situations where scrolling is **really** fast or the browser
