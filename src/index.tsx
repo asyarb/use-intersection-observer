@@ -86,26 +86,20 @@ export const useIntersectionObserver = ({
     // element.
     if (options.triggerOnce) {
       const hasIntersected = entries.some(e => e.isIntersecting)
-
-      if (!hasIntersected) {
-        setInView(false)
-        return
+      if (hasIntersected) {
+        callback?.(entries)
+        intersectObs.disconnect()
       }
 
-      callback?.(entries)
-      intersectObs.disconnect()
-      setInView(true)
-
-      return
+      setInView(hasIntersected)
     }
 
     // Otherwise, in situations where scrolling is **really** fast or the browser
-    // is busy, we can consider that the last element in the array contains the
-    // most up-to-date data.
-    const lastEntry = entries[entries.length - 1]
-    if (lastEntry.isIntersecting) callback?.(entries)
+    // is busy, we can consider that the last entry is the most up-to-date.
+    const isIntersecting = entries[entries.length - 1].isIntersecting
+    if (isIntersecting) callback?.(entries)
 
-    setInView(lastEntry.isIntersecting)
+    setInView(isIntersecting)
   }
 
   const [intersectObs] = useState(() =>
