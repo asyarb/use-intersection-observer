@@ -24,7 +24,7 @@ interface UseIntersectionObserverProperties {
    * Callback to fire when the observed component or Element
    * comes into view.
    */
-  callback?: (entry: IntersectionObserverEntry) => void
+  callback?: (entries: IntersectionObserverEntry[]) => void
 }
 
 /**
@@ -81,12 +81,26 @@ export const useIntersectionObserver = ({
   const handleIntersect = (entries: IntersectionObserverEntry[]) => {
     if (!intersectObs) return
 
-    const [entry] = entries
+    // In the case that we only want to trigger once, we can consider
+    // that if any entry has intersected, we've scrolled past the observed
+    // element.
+    if (options.triggerOnce) {
+      const hasIntersected = entries.some(e => e.isIntersecting)
+      if (hasIntersected) {
+        callback?.(entries)
+        intersectObs.disconnect()
+      }
 
-    if (callback && entry.isIntersecting) callback(entry)
-    if (options.triggerOnce && entry.isIntersecting) intersectObs.disconnect()
+      setInView(hasIntersected)
+      return
+    }
 
-    setInView(entry.isIntersecting)
+    // Otherwise, in situations where scrolling is **really** fast or the browser
+    // is busy, we can consider that the last entry is the most up-to-date.
+    const isIntersecting = entries[entries.length - 1].isIntersecting
+    if (isIntersecting) callback?.(entries)
+
+    setInView(isIntersecting)
   }
 
   const [intersectObs] = useState(() =>
@@ -95,6 +109,7 @@ export const useIntersectionObserver = ({
 
   useEffect(() => {
     if (!intersectObs) return
+
     let domNode
 
     if (ref) domNode = ref.current
