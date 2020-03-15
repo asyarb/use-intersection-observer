@@ -10,7 +10,6 @@ export const Example: React.FC<{ id?: string }> = ({ id }) => {
       threshold: 1,
       triggerOnce: true,
     },
-    callback: console.log,
   })
 
   return (
@@ -35,6 +34,12 @@ const Examples = () => (
     {Array.from(Array(100).keys()).map((_i, idx) => (
       <Example key={idx} id={idx.toString()} />
     ))}
+    <div
+      style={{
+        background: 'pink',
+        height: '100vh',
+      }}
+    />
   </div>
 )
 

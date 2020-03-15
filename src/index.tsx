@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, RefObject } from 'react'
+import { useEffect, useState, RefObject } from 'react'
 
 /**
  * Hook parameters.
@@ -78,37 +78,34 @@ export const useIntersectionObserver = ({
 }: UseIntersectionObserverProperties) => {
   const [inView, setInView] = useState(false)
 
-  // We need to track if the callback has been triggered since the Observer
-  // callback will always be immediately invoked on page load.
-  // We don't want the immediate invocation to prevent the initial intersection
-  // callback, so we need to manually track it ourselves.
-  const hasRunCallbackOnceRef = useRef(false)
-
   const handleIntersect = (entries: IntersectionObserverEntry[]) => {
     if (!intersectObs) return
 
-    // Capture the mutable ref for this closure.
-    const hasRunCallbackOnce = hasRunCallbackOnceRef.current
+    // In the case that we only want to trigger once, we can consider
+    // that if any entry has intersected, we've scrolled past the observed
+    // element.
+    if (options.triggerOnce) {
+      const hasIntersected = entries.some(e => e.isIntersecting)
 
-    // We've already ran the callback and triggerOnce is true, so don't
-    // do anything.
-    if (hasRunCallbackOnce && options.triggerOnce) return
+      if (!hasIntersected) {
+        setInView(false)
+        return
+      }
 
-    // Otherwise, we need to see if the element is intersecting and run
-    // the user's callback if they have provided one.
-    const someElementIsInView = entries.some(e => e.isIntersecting)
+      callback?.(entries)
+      intersectObs.disconnect()
+      setInView(true)
 
-    if (someElementIsInView) {
-      if (callback) callback(entries)
-      hasRunCallbackOnceRef.current = true
+      return
     }
 
-    // If triggerOnce is true and we've already ran the callback,
-    // disconnect so we don't trigger anymore.
-    if (options.triggerOnce && hasRunCallbackOnceRef.current)
-      intersectObs.disconnect()
+    // Otherwise, in situations where scrolling is **really** fast or the browser
+    // is busy, we can consider that the last element in the array contains the
+    // most up-to-date data.
+    const lastEntry = entries[entries.length - 1]
+    if (lastEntry.isIntersecting) callback?.(entries)
 
-    setInView(someElementIsInView)
+    setInView(lastEntry.isIntersecting)
   }
 
   const [intersectObs] = useState(() =>
