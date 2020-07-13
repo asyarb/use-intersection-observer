@@ -41,7 +41,7 @@
     "intersection-observer": "^0.7.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "standard-version": "^7.1.0",
+    "standard-version": "^8.0.1",
     "tsdx": "^0.12.3",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
